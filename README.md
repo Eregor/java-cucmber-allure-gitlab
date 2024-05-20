@@ -1,1 +1,1 @@
-# java-cucmber-allure-gitlab
+# java-cucumber-allure-gitlab
