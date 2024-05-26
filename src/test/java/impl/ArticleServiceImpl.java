@@ -15,10 +15,10 @@ import static io.restassured.RestAssured.given;
 @Log4j2
 public class ArticleServiceImpl implements ArticleService {
     TestConfig testConfig = new TestConfig();
-    private int statusCode;
 
     @Override
     public List<Article> getArticles() {
+
         return null;
     }
 
