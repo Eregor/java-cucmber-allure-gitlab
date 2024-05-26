@@ -1,0 +1,56 @@
+plugins {
+    id 'java'
+    id 'io.qameta.allure' version '2.8.1'
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    cucumberVersion = '7.14.0'
+    junitVersion = '5.10.0'
+    aspectjVersion = '1.9.20.1'
+    allureVersion = '2.19.0'
+}
+
+dependencies {
+    testImplementation "io.cucumber:cucumber-java:$cucumberVersion"
+    testImplementation "io.cucumber:cucumber-junit:$cucumberVersion"
+    testImplementation "org.junit.jupiter:junit-jupiter-api:$junitVersion"
+    testImplementation "org.junit.vintage:junit-vintage-engine:$junitVersion"
+    testImplementation "io.qameta.allure:allure-junit5:2.24.0"
+    testImplementation "org.projectlombok:lombok:1.18.30"
+    testImplementation "io.rest-assured:rest-assured:5.4.0"
+
+    implementation "org.apache.logging.log4j:log4j-core:2.13.3"
+    implementation "com.fasterxml.jackson.core:jackson-databind:2.17.1"
+
+    testImplementation "org.junit.platform:junit-platform-surefire-provider:1.3.2"
+    testImplementation "org.aspectj:aspectjweaver:$aspectjVersion"
+}
+
+// Создаем отдельную конфигурацию для aspectjweaver
+configurations {
+    aspectjWeaverAgent
+}
+
+dependencies {
+    aspectjWeaverAgent "org.aspectj:aspectjweaver:$aspectjVersion"
+}
+
+test {
+    useJUnitPlatform()
+    systemProperty 'junit.jupiter.extensions.autodetection.enabled', 'true'
+    jvmArgs "-javaagent:${configurations.aspectjWeaverAgent.singleFile.absolutePath}"
+}
+
+allure {
+    version = allureVersion
+}
